@@ -9,29 +9,29 @@ const Signup = () => {
 	const [success, setSuccess] = useState("");
 
 	const handleSubmit = async (e) => {
-			e.preventDefault();
-			setError("");
-			setSuccess("");
+		e.preventDefault();
+		setError("");
+		setSuccess("");
+		try {
+			const res = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/register`, {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ name, email, password }),
+			});
+			let data = {};
 			try {
-				const res = await fetch("/api/auth/register", {
-					method: "POST",
-					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ name, email, password }),
-				});
-				let data = {};
-				try {
-					data = await res.json();
-				} catch (jsonErr) {
-					if (!res.ok) throw new Error("Signup failed (invalid response)");
-				}
-				if (!res.ok) throw new Error(data.message || "Signup failed");
-				setSuccess("Signup successful! You can now login.");
-				setName("");
-				setEmail("");
-				setPassword("");
-			} catch (err) {
-				setError(err.message || "Signup failed");
+				data = await res.json();
+			} catch (jsonErr) {
+				if (!res.ok) throw new Error("Signup failed (invalid response)");
 			}
+			if (!res.ok) throw new Error(data.message || "Signup failed");
+			setSuccess("Signup successful! You can now login.");
+			setName("");
+			setEmail("");
+			setPassword("");
+		} catch (err) {
+			setError(err.message || "Signup failed");
+		}
 	};
 
 	return (
