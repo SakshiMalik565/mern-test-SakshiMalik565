@@ -11,7 +11,7 @@ const Login = () => {
 			setError("");
 			try {
 				const res = await fetch(
-  "https://mern-test-sakshimalik565.onrender.com/api/auth/login",
+  `${import.meta.env.VITE_API_URL}/api/auth/login`,
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
